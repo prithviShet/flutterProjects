@@ -16,11 +16,22 @@ class WeatherResponse {
   factory WeatherResponse.fromJson(Map<String, dynamic> json) {
     return WeatherResponse(
       coord: Coord.fromJson(json['coord']),
-      weather: (json['weather'] as List).map((i) => Weather.fromJson(i)).toList(),
+      weather:
+          (json['weather'] as List).map((i) => Weather.fromJson(i)).toList(),
       main: Main.fromJson(json['main']),
       id: json['id'],
       name: json['name'],
     );
+  }
+
+  Map<String, dynamic> toJson() {
+    return {
+      'coord': coord.toJson(),
+      'weather': weather.map((w) => w.toJson()).toList(),
+      'main': main.toJson(),
+      'id': id,
+      'name': name,
+    };
   }
 }
 
@@ -36,6 +47,13 @@ class Coord {
       lat: json['lat'],
     );
   }
+
+  Map<String, dynamic> toJson() {
+    return {
+      'lon': lon,
+      'lat': lat,
+    };
+  }
 }
 
 class Weather {
@@ -44,7 +62,11 @@ class Weather {
   String description;
   String icon;
 
-  Weather({required this.id, required this.main, required this.description, required this.icon});
+  Weather(
+      {required this.id,
+      required this.main,
+      required this.description,
+      required this.icon});
 
   factory Weather.fromJson(Map<String, dynamic> json) {
     return Weather(
@@ -54,15 +76,24 @@ class Weather {
       icon: json['icon'],
     );
   }
+
+  Map<String, dynamic> toJson() {
+    return {
+      'id': id,
+      'main': main,
+      'description': description,
+      'icon': icon,
+    };
+  }
 }
 
 class Main {
-  num temp;
-  num feelsLike;
-  num tempMin;
-  num tempMax;
-  num pressure;
-  num humidity;
+  num? temp;
+  num? feelsLike;
+  num? tempMin;
+  num? tempMax;
+  num? pressure;
+  num? humidity;
 
   Main({
     required this.temp,
@@ -75,13 +106,24 @@ class Main {
 
   factory Main.fromJson(Map<String, dynamic> json) {
     return Main(
-      temp: json['temp'],
-      feelsLike: json['feels_like'],
-      tempMin: json['temp_min'],
-      tempMax: json['temp_max'],
-      pressure: json['pressure'],
-      humidity: json['humidity'],
+      temp: json['temp'] as num?,
+      feelsLike: json['feels_like'] as num?,
+      tempMin: json['temp_min'] as num?,
+      tempMax: json['temp_max'] as num?,
+      pressure: json['pressure'] as num?,
+      humidity: json['humidity'] as num?,
     );
+  }
+
+  Map<String, dynamic> toJson() {
+    return {
+      'temp': temp,
+      'feelsLike': feelsLike,
+      'tempMin': tempMin,
+      'tempMax': tempMax,
+      'pressure': pressure,
+      'humidity': humidity,
+    };
   }
 }
 
@@ -97,6 +139,13 @@ class Wind {
       deg: json['deg'],
     );
   }
+
+  Map<String, dynamic> toJson() {
+    return {
+      'speed': speed,
+      'deg': deg,
+    };
+  }
 }
 
 class Clouds {
@@ -108,6 +157,12 @@ class Clouds {
     return Clouds(
       all: json['all'],
     );
+  }
+
+  Map<String, dynamic> toJson() {
+    return {
+      'all': all,
+    };
   }
 }
 
@@ -134,5 +189,15 @@ class Sys {
       sunrise: json['sunrise'],
       sunset: json['sunset'],
     );
+  }
+
+  Map<String, dynamic> toJson() {
+    return {
+      'type': type,
+      'id': id,
+      'country': country,
+      'sunrise': sunrise,
+      'sunset': sunset,
+    };
   }
 }

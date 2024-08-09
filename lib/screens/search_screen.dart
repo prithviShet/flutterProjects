@@ -1,15 +1,18 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:weather_app/providers/recent_search_provider.dart';
 import 'package:weather_app/service/weather_service.dart';
 
 import '../model/WeatherResponse.dart';
+import '../utility/search_history.dart';
 import 'home_screen.dart';
 
-class SearchScreen extends StatefulWidget {
+class SearchScreen extends ConsumerStatefulWidget {
   @override
-  _SearchScreen createState() => _SearchScreen();
+  ConsumerState<SearchScreen> createState() => _SearchScreen();
 }
 
-class _SearchScreen extends State<SearchScreen> {
+class _SearchScreen extends ConsumerState<SearchScreen> {
   TextEditingController _controller = TextEditingController();
   List<String> _cities = [];
   List<WeatherResponse> _citiesList = [];
@@ -33,7 +36,8 @@ class _SearchScreen extends State<SearchScreen> {
     setState(() {
       print("SEARCH data : $data");
       _cities = List<String>.from(data['list'].map((city) => city['name']));
-      _citiesList = List<WeatherResponse>.from(data['list'].map((city) => WeatherResponse.fromJson(city)));
+      _citiesList = List<WeatherResponse>.from(
+          data['list'].map((city) => WeatherResponse.fromJson(city)));
       print("SEARCH _citiesList : $_citiesList");
       _isLoading = false;
     });
@@ -83,9 +87,13 @@ class _SearchScreen extends State<SearchScreen> {
                   return ListTile(
                     title: Text(_cities[index]),
                     onTap: () {
+                      onCitySearched(_citiesList[index]);
                       //Navigate to home screen with the response data
-                      Navigator.pushReplacement(context,
-                          MaterialPageRoute(builder: (context) => HomeScreen(_citiesList[index])));
+                      Navigator.pushReplacement(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) =>
+                                  HomeScreen(_citiesList[index])));
                     },
                   );
                 },
@@ -95,5 +103,10 @@ class _SearchScreen extends State<SearchScreen> {
         ),
       ),
     );
+  }
+
+  void onCitySearched(WeatherResponse weatherResponse) async {
+    await SearchHistory.addWeatherToSearchHistory(weatherResponse);
+    // Proceed with your search functionality
   }
 }

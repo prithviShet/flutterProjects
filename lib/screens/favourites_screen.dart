@@ -36,20 +36,20 @@ class _FavouritesScreenState extends ConsumerState<FavouritesScreen> {
     }
 
     return Scaffold(
-      appBar: AppBar(
-        title: Text('Favourites'),
-      ),
-      body: Stack(
-        fit: StackFit.expand,
-        children: [
-          // Background image
-          Image.asset(
-            'assets/background.png',
-            fit: BoxFit.cover, // Cover the entire screen
-          ),
-          //List
-          content,
-        ],
-    ));
+        appBar: AppBar(
+          title: Text('Favourites'),
+        ),
+        body: Stack(
+          fit: StackFit.expand,
+          children: [
+            // Background image
+            Image.asset(
+              'assets/background.png',
+              fit: BoxFit.cover, // Cover the entire screen
+            ),
+            //List
+            content,
+          ],
+        ));
   }
 }

@@ -29,16 +29,14 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
     if (identifier == "favourite") {
       Navigator.of(context).push<Map<String, bool>>(
         MaterialPageRoute(
-          builder: (ctx) =>
-              const FavouritesScreen(),
+          builder: (ctx) => const FavouritesScreen(),
         ),
       );
     }
-    if(identifier == "recent") {
+    if (identifier == "recent") {
       Navigator.of(context).push<Map<String, bool>>(
         MaterialPageRoute(
-          builder: (ctx) =>
-          const RecentSearchScreen(),
+          builder: (ctx) => RecentSearchScreen(),
         ),
       );
     }
