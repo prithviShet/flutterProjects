@@ -9,11 +9,20 @@ class CityCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Card(
+    return Container(
+        decoration: BoxDecoration(
+          color: Colors.white.withOpacity(0.1),
+          // White translucent background
+          boxShadow: [
+            BoxShadow(
+              color: Colors.black.withOpacity(0.2),
+              blurRadius: 10.0,
+              spreadRadius: 5.0,
+            ),
+          ],
+        ),
         margin: const EdgeInsets.only(left: 16, right: 16, top: 8, bottom: 4),
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(0)),
         clipBehavior: Clip.hardEdge,
-        elevation: 4.0,
         child: InkWell(
           onTap: goToHomeScreen,
           child: Padding(
@@ -31,22 +40,23 @@ class CityCard extends StatelessWidget {
                         style: TextStyle(
                           fontSize: 20.0,
                           fontWeight: FontWeight.bold,
+                          color: Colors.yellow,
                         ),
                       ),
                       SizedBox(height: 8.0),
                       Row(
                         children: <Widget>[
-                          Icon(Icons.cloud, size: 24.0),
+                          Icon(Icons.cloud, size: 24.0, color: Colors.white,),
                           // Replace with dynamic weather icon
                           SizedBox(width: 8.0),
                           Text(
                             '25°C', // Replace with dynamic temperature
-                            style: TextStyle(fontSize: 16.0),
+                            style: TextStyle(fontSize: 16.0, color: Colors.white),
                           ),
                           SizedBox(width: 8.0),
                           Text(
                             'Sunny', // Replace with dynamic weather condition
-                            style: TextStyle(fontSize: 16.0),
+                            style: TextStyle(fontSize: 16.0, color: Colors.white),
                           ),
                         ],
                       ),

@@ -4,6 +4,7 @@ class WeatherResponse {
   Main main;
   num id;
   String name;
+  int dt;
 
   WeatherResponse({
     required this.coord,
@@ -11,6 +12,7 @@ class WeatherResponse {
     required this.main,
     required this.id,
     required this.name,
+    required this.dt,
   });
 
   factory WeatherResponse.fromJson(Map<String, dynamic> json) {
@@ -21,6 +23,7 @@ class WeatherResponse {
       main: Main.fromJson(json['main']),
       id: json['id'],
       name: json['name'],
+      dt: json['dt'],
     );
   }
 
@@ -31,6 +34,7 @@ class WeatherResponse {
       'main': main.toJson(),
       'id': id,
       'name': name,
+      'dt': dt
     };
   }
 }

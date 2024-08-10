@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:weather_app/providers/recent_search_provider.dart';
 import 'package:weather_app/service/weather_service.dart';
 
 import '../model/WeatherResponse.dart';
@@ -73,6 +72,14 @@ class _SearchScreen extends ConsumerState<SearchScreen> {
                 border: InputBorder.none,
               ),
             ),
+            bottom: PreferredSize(
+              preferredSize: const Size.fromHeight(1.0),
+              // The height of the bottom border
+              child: Container(
+                color: Colors.grey, // The color of the bottom border
+                height: 1.0, // The thickness of the bottom border
+              ),
+            ),
           ),
         ),
       ),
@@ -84,17 +91,29 @@ class _SearchScreen extends ConsumerState<SearchScreen> {
               child: ListView.builder(
                 itemCount: _cities.length,
                 itemBuilder: (context, index) {
-                  return ListTile(
-                    title: Text(_cities[index]),
-                    onTap: () {
-                      onCitySearched(_citiesList[index]);
-                      //Navigate to home screen with the response data
-                      Navigator.pushReplacement(
+                  return Container(
+                    decoration: const BoxDecoration(
+                      border: Border(
+                        bottom: BorderSide(
+                          color: Colors.grey, // Set the color of the border
+                          width: 1.0, // Set the thickness of the border
+                        ),
+                      ),
+                    ),
+                    child: ListTile(
+                      title: Text(_cities[index]),
+                      onTap: () {
+                        onCitySearched(_citiesList[index]);
+                        // Navigate to home screen with the response data
+                        Navigator.pushReplacement(
                           context,
                           MaterialPageRoute(
-                              builder: (context) =>
-                                  HomeScreen(_citiesList[index])));
-                    },
+                            builder: (context) =>
+                                HomeScreen(_citiesList[index]),
+                          ),
+                        );
+                      },
+                    ),
                   );
                 },
               ),

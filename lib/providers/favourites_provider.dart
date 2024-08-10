@@ -4,6 +4,10 @@ import 'package:weather_app/model/WeatherResponse.dart';
 class FavouriteCitiesNotifier extends StateNotifier<List<WeatherResponse>> {
   FavouriteCitiesNotifier() : super([]);
 
+  void clearAllFavs() {
+    state = [];
+  }
+
   void toggleFavouriteStatus(WeatherResponse weather) {
     final isExisting = state.contains(weather);
 
