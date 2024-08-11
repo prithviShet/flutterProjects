@@ -1,16 +1,19 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:weather_app/widgets/city_card.dart';
 
 import '../model/WeatherResponse.dart';
+import '../providers/favourites_provider.dart';
 import '../utility/search_history.dart';
 import 'home_screen.dart';
 
-class RecentSearchScreen extends StatefulWidget {
+class RecentSearchScreen extends ConsumerStatefulWidget {
   @override
-  _RecentSearchesScreenState createState() => _RecentSearchesScreenState();
+  ConsumerState<RecentSearchScreen> createState() =>
+      _RecentSearchesScreenState();
 }
 
-class _RecentSearchesScreenState extends State<RecentSearchScreen> {
+class _RecentSearchesScreenState extends ConsumerState<RecentSearchScreen> {
   List<WeatherResponse> _recentSearches = [];
 
   @override
@@ -34,6 +37,30 @@ class _RecentSearchesScreenState extends State<RecentSearchScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final favouriteCities = ref.watch(favouriteCitiesProvider);
+    Widget content;
+
+    if (_recentSearches.isNotEmpty) {
+      final List<WeatherResponse> cityList =
+          parseFavourites(favouriteCities, _recentSearches);
+      Widget list = ListView.builder(
+        itemCount: cityList.length,
+        itemBuilder: (context, index) {
+          final weatherResponse = cityList[index];
+          return CityCard(weatherResponse, () {
+            goToHomeScreen(context, weatherResponse);
+          });
+        },
+      );
+      content = list;
+    } else {
+      content = Center(
+        child: Image.asset(
+          'assets/icon_nothing.png', // Cover the entire screen
+        ),
+      );
+    }
+
     return Scaffold(
       appBar: AppBar(
         title: Text('Recent Searches'),
@@ -88,21 +115,7 @@ class _RecentSearchesScreenState extends State<RecentSearchScreen> {
               ),
               Expanded(
                 child: Center(
-                  child: _recentSearches.isNotEmpty
-                      ? ListView.builder(
-                    itemCount: _recentSearches.length,
-                    itemBuilder: (context, index) {
-                      final weatherResponse = _recentSearches[index];
-                      return CityCard(weatherResponse, () {
-                        goToHomeScreen(context, weatherResponse);
-                      });
-                    },
-                  )
-                      : Center(
-                    child: Image.asset(
-                      'assets/icon_nothing.png', // Cover the entire screen
-                    ),
-                  ),
+                  child: content,
                 ),
               ),
             ],
@@ -143,5 +156,15 @@ class _RecentSearchesScreenState extends State<RecentSearchScreen> {
   Future<void> clearSearch() async {
     await SearchHistory.clearSearchHistory();
     // Additional logic (if any) can be implemented here
+  }
+
+  List<WeatherResponse> parseFavourites(List<WeatherResponse> favouriteCities,
+      List<WeatherResponse> recentSearches) {
+    for (var search in recentSearches) {
+      search.isFavourite =
+          favouriteCities.any((favourite) => favourite.id == search.id);
+    }
+
+    return recentSearches;
   }
 }

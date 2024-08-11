@@ -46,17 +46,23 @@ class CityCard extends StatelessWidget {
                       SizedBox(height: 8.0),
                       Row(
                         children: <Widget>[
-                          Icon(Icons.cloud, size: 24.0, color: Colors.white,),
+                          Icon(
+                            Icons.cloud,
+                            size: 24.0,
+                            color: Colors.white,
+                          ),
                           // Replace with dynamic weather icon
                           SizedBox(width: 8.0),
                           Text(
                             '25°C', // Replace with dynamic temperature
-                            style: TextStyle(fontSize: 16.0, color: Colors.white),
+                            style:
+                                TextStyle(fontSize: 16.0, color: Colors.white),
                           ),
                           SizedBox(width: 8.0),
                           Text(
                             'Sunny', // Replace with dynamic weather condition
-                            style: TextStyle(fontSize: 16.0, color: Colors.white),
+                            style:
+                                TextStyle(fontSize: 16.0, color: Colors.white),
                           ),
                         ],
                       ),
@@ -68,42 +74,22 @@ class CityCard extends StatelessWidget {
                   flex: 1,
                   child: Align(
                     alignment: Alignment.centerRight,
-                    child: Icon(
-                      Icons.favorite,
-                      size: 30.0,
-                      color: Colors.yellow,
-                    ),
+                    child: IconButton(
+                        onPressed: () {
+                          // _addToFavourites();
+                        },
+                        icon: Icon(
+                          city.isFavourite
+                              ? Icons.favorite
+                              : Icons.favorite_border_sharp,
+                          key: ValueKey(city.isFavourite),
+                          color: Colors.yellow,
+                        )),
                   ),
                 ),
               ],
             ),
           ),
         ));
-    /*return Card(
-        margin: const EdgeInsets.only(left: 16, right: 16, top: 8, bottom: 4),
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(0)),
-        clipBehavior: Clip.hardEdge,
-        child: InkWell(
-            onTap: goToHomeScreen,
-            child: Padding(
-                padding: EdgeInsets.all(8.0),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Column(
-                      children: [
-                        Text(city.name),
-                        const Row(
-                          children: [
-                            Icon(Icons.sunny),
-                            Text("31 C"),
-                            Text("Sunny")
-                          ],
-                        )
-                      ],
-                    ),
-                    const Icon(Icons.favorite),
-                  ],
-                ))));*/
   }
 }

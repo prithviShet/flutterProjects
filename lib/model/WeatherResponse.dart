@@ -5,6 +5,7 @@ class WeatherResponse {
   num id;
   String name;
   int dt;
+  bool isFavourite = true;
 
   WeatherResponse({
     required this.coord,
